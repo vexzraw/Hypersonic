@@ -1,0 +1,25 @@
+# Render Blueprint para HYPERSONIC
+# ===================================================================
+# Esto permite desplegar con un clic en Render.
+# Render detectará este archivo al conectar tu repo y creará
+# automáticamente el Web Service.
+#
+# IMPORTANTE: la base de datos PostgreSQL debes crearla a mano
+# en Render (es gratis). Ver README.md para instrucciones detalladas.
+# ===================================================================
+
+services:
+  - type: web
+    name: hypersonic
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false  # Lo configuras a mano en Render (pegas la Internal Database URL)
